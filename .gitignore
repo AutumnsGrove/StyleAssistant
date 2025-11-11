@@ -3,3 +3,35 @@ secrets.json
 __pycache__/
 .DS_Store
 .claude/
+
+# Python
+.venv/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+dist/
+build/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Node/TypeScript
+node_modules/
+extension/dist/
+extension/src/**/*.js
+extension/src/**/*.js.map
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
