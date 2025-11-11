@@ -15,6 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.config import get_settings, Settings
 from backend.database import init_database, get_db
 from backend.core.middleware import error_handling_middleware
+from backend.costs.router import router as costs_router
 
 
 # Configure logging
@@ -71,6 +72,10 @@ app.add_middleware(
 
 # Register error handling middleware
 app.middleware("http")(error_handling_middleware)
+
+
+# Register routers
+app.include_router(costs_router)
 
 
 @app.get("/health")
