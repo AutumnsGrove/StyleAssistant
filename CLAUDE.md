@@ -5,17 +5,31 @@
 ---
 
 ## Project Purpose
-[Fill in: What this project does - 1-2 sentences]
+A Firefox browser extension that provides personalized style analysis and outfit suggestions for clothing products on e-commerce sites (starting with Uniqlo). Uses Claude AI models for analysis with prompt caching optimization, tracks API costs, and offers both personalized and basic modes.
 
 ## Tech Stack
-[Fill in: Technologies, frameworks, and languages used]
-- Language:
-- Framework:
-- Key Libraries:
-- Package Manager:
+**Frontend (Browser Extension):**
+- Language: JavaScript/TypeScript
+- Framework: Firefox WebExtension (Manifest V3)
+- UI: Vanilla JS (lightweight)
+- Storage: Firefox extension storage API + SQLite
+
+**Backend:**
+- Language: Python
+- Framework: FastAPI
+- Database: SQLite
+- Package Manager: UV
+- AI Models: Claude Sonnet 4.5 (complex analysis), Claude Haiku 4.5 (basic analysis)
+- Deployment: Local (localhost) for MVP, future Cloudflare Workers option
 
 ## Architecture Notes
-[Fill in: Key architectural decisions, patterns, or structure]
+- **AI Provider Abstraction Layer**: Base class pattern allows easy swapping between Claude, LM Studio, OpenRouter, OpenAI in future
+- **Prompt Caching Strategy**: User profile and extraction schema cached to minimize costs (~50%+ savings)
+- **Two-Mode Operation**: Full personalized analysis (with quiz) vs. basic analysis (without quiz)
+- **Cost Tracking**: Per-session and all-time tracking with breakdown by model and request type
+- **Product Caching**: SQLite stores analyzed products with analysis results keyed to profile version hash
+- **DOM Injection**: Primary strategy with floating overlay fallback for analysis box placement
+- **Image Optimization**: Product images converted to WebP, compressed to ~200KB, stored in extension storage
 
 ---
 

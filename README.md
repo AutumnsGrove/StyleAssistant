@@ -1,130 +1,94 @@
-<!-- TEMPLATE: START - This section will be removed after setup -->
+# Style Assistant - AI-Powered Fashion Browser Extension
 
-# ⚡ Use This Template
+A Firefox browser extension that provides personalized style analysis and outfit suggestions for clothing products on e-commerce sites using Claude AI.
 
-[![Use this template](https://img.shields.io/badge/Use_this_template-2ea44f?style=for-the-badge&logo=github)](https://github.com/AutumnsGrove/BaseProject/generate)
-
-**Quick Start:** Click the green button above → Clone your new repo → Run `bash setup.sh`
-
----
-
-# BaseProject - Claude Code Template
-
-A comprehensive project template with built-in Claude Code workflows, best practices, and extensive documentation for rapid development setup.
-
-**What you get:** Git hooks • Multi-language support • Security defaults • 18 comprehensive guides • Claude-optimized workflows
+**Features:** Personalized style quiz • AI-powered outfit matching • Cost-optimized Claude API usage • Product caching • Real-time analysis
 
 ## 🚀 Quick Start
 
-### Option 1: New Project Setup
+### Prerequisites
+- Python 3.11+ with UV package manager
+- Node.js 18+ (for extension development)
+- Firefox Developer Edition (recommended) or Firefox
+- Anthropic API key for Claude
 
-**Copy this prompt into Claude Code:**
-```
-I want to create a new project from the BaseProject template. Follow this workflow:
+### Backend Setup
 
-1. First, ask me for: project name, description, tech stack (Python/JS/Go), and what API keys I'll need
-2. Clone https://github.com/AutumnsGrove/BaseProject (main branch) to /tmp
-3. Copy to ~/Projects/[PROJECT_NAME] (exclude .git/)
-4. Rename TEMPLATE_CLAUDE.md to CLAUDE.md
-5. Customize CLAUDE.md with my project details (Purpose, Tech Stack, Architecture)
-6. Update README.md with project-specific info (title, description, features)
-7. Init language dependencies (uv init for Python, npm init for JS, go mod init for Go)
-8. Create directory structure: src/ and tests/ with proper init files for the chosen language
-9. Generate secrets_template.json with my API key placeholders
-10. Create TODOS.md with 3-5 starter tasks based on the project description
-11. Run git init using global git config (user.name and user.email)
-12. Ask if I want to install git hooks (recommended: yes, auto-detects language from files created in step 7)
-13. If yes, run ./ClaudeUsage/pre_commit_hooks/install_hooks.sh
-14. Make initial commit: "feat: initialize [PROJECT] from BaseProject template"
-15. Display project summary and next steps including reminder about installed hooks
+```bash
+# Install Python dependencies
+uv init
+uv add fastapi uvicorn anthropic pillow
 
-Start by asking me for the project details.
+# Create secrets file
+cp ClaudeUsage/templates/secrets_template.json secrets.json
+# Edit secrets.json and add your Anthropic API key
+
+# Run the backend
+uv run uvicorn backend.main:app --reload
 ```
 
-Claude will interactively:
-- Ask for project name, tech stack, and requirements
-- Copy BaseProject template to your chosen location
-- Customize CLAUDE.md with your project details
-- Set up language-specific dependencies (pyproject.toml, package.json, etc.)
-- Create proper project structure (src/, tests/)
-- Generate secrets_template.json with your needed API keys
-- Initialize git with proper configuration
-- **Install git hooks (recommended)** - auto-detects your language and installs:
-  - Code quality checks (Black/Ruff for Python, Prettier/ESLint for JS, gofmt for Go)
-  - Security scanner (prevents committing API keys/secrets)
-  - Test runner (blocks push if tests fail)
-  - Dependency auto-updater (runs on branch switch)
-- Create initial commit following our standards
+### Extension Setup
+
+```bash
+# Navigate to extension directory
+cd extension
+
+# Install dependencies (if using npm for build tools)
+npm install
+
+# Load extension in Firefox
+# 1. Open Firefox
+# 2. Navigate to about:debugging#/runtime/this-firefox
+# 3. Click "Load Temporary Add-on"
+# 4. Select manifest.json from the extension/ directory
+```
+
+### Running the Project
+
+1. Start the FastAPI backend: `uv run uvicorn backend.main:app --reload`
+2. Load the extension in Firefox (see above)
+3. Navigate to a Uniqlo product page
+4. Take the style quiz via the extension popup
+5. See personalized analysis appear on product pages!
 
 ---
 
-### Option 2: Add to Existing Project
-
-**Copy this prompt into Claude Code (run in your project directory):**
+## 📁 Project Structure
 
 ```
-I want to add BaseProject structure to my CURRENT project. Follow this workflow:
-
-1. Analyze my existing project: read README.md, CLAUDE.md, git history for commit patterns, detect tech stack and package managers, identify architecture (monorepo/single/etc), read TODOS.md if exists
-2. Clone https://github.com/AutumnsGrove/BaseProject (main branch) to /tmp/bp
-3. Copy ClaudeUsage/ to my project (preserve any existing ClaudeUsage/ files, only add new guides)
-4. Intelligently merge CLAUDE.md: if exists, parse sections and merge BaseProject sections using markers like "<!-- BaseProject: Git Workflow -->". If doesn't exist, create from template with detected project details
-5. Enhance .gitignore by merging entries (preserve existing, add missing from BaseProject)
-6. Analyze commit messages and suggest adopting BaseProject conventional commit style if inconsistent
-7. Check if using branches like dev/main and suggest workflow if not
-8. Ask if I want to install git hooks (they auto-detect my language and back up existing hooks first)
-9. If yes, run ./ClaudeUsage/pre_commit_hooks/install_hooks.sh interactively
-10. Generate/update TODOS.md with project-aware tasks
-11. Create integration-summary.md report showing what was added/merged/skipped
-12. Backup all modified files to ./.baseproject-backup-[TIMESTAMP]/
-13. Cleanup /tmp/bp
-14. Display next steps
-
-Start by analyzing my current project.
-```
-
-Claude will intelligently:
-- Analyze your existing project structure and conventions
-- Detect tech stack from package files (package.json, pyproject.toml, etc.)
-- Copy ClaudeUsage/ guides without overwriting existing files
-- Merge CLAUDE.md sections with clear markers (preserves your content)
-- Append missing .gitignore entries without removing existing ones
-- Compare your commit style to BaseProject standards and offer suggestions
-- **Optionally install git hooks** - backs up existing hooks, auto-detects language, installs appropriate quality/security hooks
-- Create backup of all modified files before making changes
-- Generate integration-summary.md showing exactly what was changed
-- Respect your existing README.md (won't overwrite)
-- Adapt to your project's existing structure
-
-### Manual Setup
-
-For full control over the setup process, see [TEMPLATE_USAGE.md](TEMPLATE_USAGE.md) for detailed step-by-step instructions.
-
-<!-- TEMPLATE: END -->
-
----
-
-## 📁 What's Included
-
-```
-BaseProject/
-├── CLAUDE.md                   # Main project instructions file
-├── ClaudeUsage/                # Comprehensive workflow guides
-│   ├── README.md               # Guide index
-│   ├── git_guide.md            # Unified git workflow and conventional commits
-│   ├── db_usage.md             # SQLite database with database.py interface
-│   ├── secrets_management.md  # API key handling
-│   ├── code_style_guide.md    # Code style principles
-│   ├── project_setup.md       # Project initialization patterns
-│   ├── uv_usage.md            # Python UV package manager
-│   ├── testing_strategies.md  # Test patterns
-│   ├── docker_guide.md        # Containerization
-│   ├── ci_cd_patterns.md      # GitHub Actions
-│   ├── house_agents.md        # Claude subagent usage
-│   ├── pre_commit_hooks/      # Git hooks for code quality
-│   ├── templates/             # Template files for common configs
-│   └── ... (18 total guides)
-└── .gitignore                  # Comprehensive gitignore
+style-assistant/
+├── backend/                    # FastAPI backend
+│   ├── main.py                # FastAPI app
+│   ├── database.py            # SQLite connection & queries
+│   ├── models.py              # Pydantic models
+│   ├── ai_providers/          # AI provider abstraction
+│   │   ├── base.py           # Abstract AIProvider class
+│   │   └── claude.py         # Claude implementation
+│   ├── extractors/            # Product extractors
+│   │   ├── base.py           # Base extractor
+│   │   └── uniqlo.py         # Uniqlo-specific extractor
+│   └── utils.py              # Helpers, cost calc, image processing
+│
+├── extension/                  # Firefox extension
+│   ├── manifest.json          # Extension manifest
+│   ├── background.js          # Background service worker
+│   ├── content/               # Content scripts
+│   │   ├── content.js        # Main content script
+│   │   ├── injector.js       # DOM injection logic
+│   │   └── styles.css        # Analysis box styles
+│   ├── popup/                 # Extension popup
+│   │   ├── popup.html
+│   │   ├── popup.js
+│   │   └── popup.css
+│   ├── quiz/                  # Style quiz
+│   │   ├── quiz.html
+│   │   ├── quiz.js
+│   │   └── quiz.css
+│   └── storage.js            # Extension storage wrapper
+│
+├── CLAUDE.md                  # Project instructions for Claude Code
+├── ClaudeUsage/               # Claude Code workflow guides
+└── StyleAssistantSpec.md      # Complete project specification
 ```
 
 ---
@@ -166,34 +130,31 @@ See [ClaudeUsage/house_agents.md](ClaudeUsage/house_agents.md) for usage pattern
 
 ---
 
-## 🎯 What You Get
+## 🎯 Key Features
 
-### Instant Best Practices
-- **Git workflow patterns** - Conventional commits, unified git guide
-- **Database architecture** - SQLite with isolated database.py interface
-- **Security by default** - API key management, secrets scanning hooks
-- **Code quality hooks** - 8 production-ready git hooks for Python, JS, Go, multi-language
-  - `pre-commit-secrets-scanner` - Prevents committing API keys (15+ patterns)
-  - Language-specific formatters (Black, Prettier, gofmt) and linters
-  - Auto-run tests before push, auto-update deps on branch switch
-  - Interactive installer with auto-detection
-- **Testing strategies** - Unit, integration, and E2E test patterns
-- **CI/CD templates** - GitHub Actions workflows
-- **Documentation standards** - Consistent, scannable docs
+### Personalized Style Analysis
+- **Interactive Style Quiz** - Multi-select questions covering fit preferences, color palettes, formality spectrum, gender presentation, aesthetics, and priorities
+- **Style Match Scoring** - 0-100% match score with color-coded indicators (excellent, good, moderate, poor)
+- **Context-Aware Suggestions** - Outfit pairings specific to your style profile and the product being viewed
+- **Attribute Analysis** - Warmth, formality, vibe, comfort, and versatility ratings
 
-### Claude-Optimized Workflows
-- **House agents** - Specialized agents for research, coding, git analysis
-- **Context7 integration** - Automatic library documentation fetching
-- **TODO management** - Task tracking integrated into workflow
-- **Subagent patterns** - Breaking down complex tasks
+### Cost-Optimized AI
+- **Smart Caching** - User profile and extraction schema cached via Claude prompt caching
+- **Dual-Mode Operation** - Full analysis with Sonnet 4.5 vs. basic analysis with Haiku 4.5
+- **Cost Tracking** - Per-session and all-time tracking with detailed breakdowns
+- **Product Cache** - SQLite stores analyzed products to avoid redundant API calls
 
-### Multi-Language Support
-Guides and patterns for:
-- Python (with UV package manager)
-- JavaScript/TypeScript
-- Go
-- Rust
-- Docker containerization
+### Smart Product Detection
+- **Automatic Page Detection** - Identifies Uniqlo product pages via URL patterns and DOM validation
+- **Comprehensive Extraction** - Title, price, materials, colors, sizes, images, and descriptions
+- **Image Optimization** - WebP conversion and compression to ~200KB per image
+- **Multi-Site Ready** - Extensible architecture for adding more e-commerce sites
+
+### Seamless UX
+- **Non-Intrusive UI** - Collapsed by default, expands on click
+- **DOM Injection** - Integrates naturally into product pages with fallback overlay
+- **Real-Time Analysis** - Immediate feedback as you browse
+- **Debug Logging** - Comprehensive error tracking and user-friendly messages
 
 ---
 
