@@ -1,0 +1,101 @@
+"""
+FastAPI application entry point for Style Assistant backend.
+
+Configures FastAPI app with CORS, middleware, and routes.
+Initializes database on startup.
+"""
+
+import logging
+from contextlib import asynccontextmanager
+
+import aiosqlite
+from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
+
+from backend.config import get_settings, Settings
+from backend.database import init_database, get_db
+from backend.core.middleware import error_handling_middleware
+
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logger = logging.getLogger("style_assistant")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Lifespan context manager for startup and shutdown events.
+
+    Startup:
+        - Initialize database schema
+        - Log startup information
+
+    Shutdown:
+        - Clean up resources (if needed)
+    """
+    # Startup
+    logger.info("Starting Style Assistant backend...")
+    await init_database()
+    logger.info("Database initialized successfully")
+
+    yield
+
+    # Shutdown
+    logger.info("Shutting down Style Assistant backend...")
+
+
+# Create FastAPI application
+app = FastAPI(
+    title="Style Assistant API",
+    version="0.1.0",
+    description="AI-powered personalized style analysis backend",
+    lifespan=lifespan,
+)
+
+
+# Configure CORS
+settings = get_settings()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.cors_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+# Register error handling middleware
+app.middleware("http")(error_handling_middleware)
+
+
+@app.get("/health")
+async def health_check(db: aiosqlite.Connection = Depends(get_db)):
+    """
+    Health check endpoint.
+
+    Verifies:
+        - API is running
+        - Database is accessible
+        - Basic connectivity
+
+    Returns:
+        dict: Health status and version information
+    """
+    # Test database connection
+    try:
+        async with db.execute("SELECT 1") as cursor:
+            await cursor.fetchone()
+    except Exception as e:
+        logger.error(f"Database health check failed: {e}")
+        return {
+            "status": "unhealthy",
+            "version": "0.1.0",
+            "error": "Database unavailable",
+        }
+
+    return {"status": "ok", "version": "0.1.0"}
