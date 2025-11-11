@@ -7,37 +7,36 @@ and AI providers.
 
 from typing import Optional
 
+from functools import lru_cache
+
 from backend.config import get_settings, Settings
 from backend.database import get_db
 from backend.ai_providers.base import AIProvider
+from backend.ai_providers.claude import ClaudeProvider
 
 
 # Re-export for convenience
 __all__ = ["get_db", "get_settings", "get_ai_provider"]
 
 
+@lru_cache()
 def get_ai_provider() -> AIProvider:
     """
-    Get AI provider instance.
+    Get singleton Claude provider instance.
 
-    Placeholder for actual provider instantiation. Will be implemented
-    by the Claude Provider subagent to return a ClaudeProvider instance.
+    Uses LRU cache to ensure only one provider instance is created.
+    Future enhancement: Support multiple providers based on config.
 
     Returns:
-        AIProvider: AI provider instance
-
-    Raises:
-        NotImplementedError: Until Claude provider is implemented
+        AIProvider: Claude provider instance
 
     Note:
-        This will be updated to instantiate the appropriate provider
-        based on configuration (Claude, LM Studio, etc.)
+        Currently returns ClaudeProvider. In the future, this could
+        be extended to support multiple providers:
+        - Claude (current)
+        - LM Studio
+        - OpenRouter
+        - OpenAI
     """
-    # TODO: Implement when Claude provider is ready
-    # Example future implementation:
-    #   settings = get_settings()
-    #   if settings.ai_provider == 'claude':
-    #       return ClaudeProvider(api_key=settings.claude_api_key)
-    #   elif settings.ai_provider == 'lmstudio':
-    #       return LMStudioProvider(base_url=settings.lmstudio_url)
-    raise NotImplementedError("AI provider not yet implemented")
+    settings = get_settings()
+    return ClaudeProvider(api_key=settings.anthropic_api_key, enable_cache=True)
