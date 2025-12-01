@@ -1,7 +1,7 @@
 {
-  "name": "style-assistant-extension",
+  "name": "grove-assistant-extension",
   "version": "0.1.0",
-  "description": "Style Assistant Firefox Extension",
+  "description": "GroveAssistant Firefox Extension",
   "private": true,
   "scripts": {
     "build": "tsc",

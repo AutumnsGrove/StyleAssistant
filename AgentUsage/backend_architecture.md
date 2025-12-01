@@ -1,6 +1,6 @@
 # Backend Architecture Plan
 
-**Project**: Style Assistant Browser Extension
+**Project**: GroveAssistant Browser Extension
 **Phase**: Architecture Validation
 **Date**: 2025-11-11
 **Status**: Finalized - Ready for Implementation
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-This document provides the final validated architecture for the Style Assistant backend. After reviewing the project specification and technical research findings, this architecture balances the spec's simplicity with the research's best practices, optimizing for a small-scale local MVP while maintaining extensibility for future enhancements.
+This document provides the final validated architecture for the GroveAssistant backend. After reviewing the project specification and technical research findings, this architecture balances the spec's simplicity with the research's best practices, optimizing for a small-scale local MVP while maintaining extensibility for future enhancements.
 
 **Key Architecture Decisions**:
 1. **Hybrid directory structure** - Domain-driven for domains, type-based for utilities
@@ -245,7 +245,7 @@ import aiosqlite
 from typing import AsyncGenerator
 from pathlib import Path
 
-DATABASE_PATH = Path("data/style_assistant.db")
+DATABASE_PATH = Path("data/grove_assistant.db")
 
 async def get_db() -> AsyncGenerator[aiosqlite.Connection, None]:
     """
@@ -1188,7 +1188,7 @@ async def analyze(
 ```python
 # core/exceptions.py
 
-class StyleAssistantException(Exception):
+class GroveAssistantException(Exception):
     """Base exception for all custom exceptions."""
     def __init__(self, message: str, status_code: int = 500, detail: dict = None):
         self.message = message
@@ -1197,27 +1197,27 @@ class StyleAssistantException(Exception):
         super().__init__(self.message)
 
 # Domain-specific exceptions
-class DatabaseError(StyleAssistantException):
+class DatabaseError(GroveAssistantException):
     """Database operation failed."""
     def __init__(self, message: str, detail: dict = None):
         super().__init__(message, status_code=500, detail=detail)
 
-class AIProviderError(StyleAssistantException):
+class AIProviderError(GroveAssistantException):
     """AI provider API error."""
     def __init__(self, message: str, status_code: int = 500, detail: dict = None):
         super().__init__(message, status_code=status_code, detail=detail)
 
-class CacheError(StyleAssistantException):
+class CacheError(GroveAssistantException):
     """Cache lookup or storage failed."""
     def __init__(self, message: str, detail: dict = None):
         super().__init__(message, status_code=500, detail=detail)
 
-class ValidationError(StyleAssistantException):
+class ValidationError(GroveAssistantException):
     """Request validation failed."""
     def __init__(self, message: str, detail: dict = None):
         super().__init__(message, status_code=400, detail=detail)
 
-class AuthenticationError(StyleAssistantException):
+class AuthenticationError(GroveAssistantException):
     """Authentication failed."""
     def __init__(self, message: str, detail: dict = None):
         super().__init__(message, status_code=401, detail=detail)
@@ -1253,7 +1253,7 @@ async def error_handling_middleware(request: Request, call_next):
         response = await call_next(request)
         return response
 
-    except StyleAssistantException as e:
+    except GroveAssistantException as e:
         # Log custom exceptions
         logger.error(
             f"{e.__class__.__name__}: {e.message}",
@@ -1318,7 +1318,7 @@ def setup_logging(log_level: str = "INFO"):
 
 # Usage in main.py
 setup_logging(log_level="INFO")
-logger = logging.getLogger("style_assistant")
+logger = logging.getLogger("grove_assistant")
 ```
 
 ### Graceful Degradation
@@ -1545,7 +1545,7 @@ await store_product(product_data, images=[])
 
 **Files to Reference**:
 1. This document (`backend_architecture.md`) - Architecture decisions
-2. Project spec (`StyleAssistantSpec.md`) - Feature requirements
+2. Project spec (`GroveAssistantSpec.md`) - Feature requirements
 3. Technical research (`backend_technical_research.md`) - Implementation details
 4. `pyproject.toml` - Dependencies already configured
 

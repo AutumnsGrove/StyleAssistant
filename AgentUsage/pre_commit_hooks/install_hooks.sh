@@ -275,7 +275,7 @@ echo -e "${YELLOW}💡 Next steps:${NC}"
 echo "  1. Test hooks by making a commit"
 echo "  2. Hooks will run automatically on git operations"
 echo "  3. Use 'git commit --no-verify' to bypass (not recommended)"
-echo "  4. Check ClaudeUsage/pre_commit_hooks/setup_guide.md for details"
+echo "  4. Check AgentUsage/pre_commit_hooks/setup_guide.md for details"
 echo ""
 
 echo -e "${CYAN}Hook behavior:${NC}"

@@ -54,8 +54,8 @@ jobs:
           ## Setup Tasks
           - [ ] Review and customize CLAUDE.md with project-specific details
           - [ ] Set up project dependencies (uv, npm, go mod, etc.)
-          - [ ] Configure secrets if needed (see ClaudeUsage/secrets_management.md)
-          - [ ] Set up pre-commit hooks (optional, see ClaudeUsage/pre_commit_hooks/)
+          - [ ] Configure secrets if needed (see AgentUsage/secrets_management.md)
+          - [ ] Set up pre-commit hooks (optional, see AgentUsage/pre_commit_hooks/)
           - [ ] Add initial project structure
           
           ## Development Tasks
@@ -85,13 +85,13 @@ jobs:
           
           1. Review `CLAUDE.md` for project context
           2. Check `TODOS.md` for pending tasks
-          3. Explore `ClaudeUsage/` directory for workflow guides
+          3. Explore `AgentUsage/` directory for workflow guides
           
           ### Documentation
           
-          - See `ClaudeUsage/README.md` for comprehensive workflow guides
-          - Follow `ClaudeUsage/git_workflow.md` for commit standards
-          - Check `ClaudeUsage/secrets_management.md` for API key handling
+          - See `AgentUsage/README.md` for comprehensive workflow guides
+          - Follow `AgentUsage/git_workflow.md` for commit standards
+          - Check `AgentUsage/secrets_management.md` for API key handling
           
           ## Development
           
@@ -109,8 +109,8 @@ jobs:
           fi
           
           # Make scripts executable
-          if [ -d "ClaudeUsage/pre_commit_hooks" ]; then
-            chmod +x ClaudeUsage/pre_commit_hooks/*
+          if [ -d "AgentUsage/pre_commit_hooks" ]; then
+            chmod +x AgentUsage/pre_commit_hooks/*
             echo "✓ Made pre-commit hooks executable"
           fi
           
@@ -153,7 +153,7 @@ jobs:
           echo "Next steps:"
           echo "1. Review and customize CLAUDE.md"
           echo "2. Check TODOS.md for your task list"
-          echo "3. Explore ClaudeUsage/ guides"
+          echo "3. Explore AgentUsage/ guides"
           echo "4. Start coding with: claude 'your task'"
           echo ""
           echo "================================================"

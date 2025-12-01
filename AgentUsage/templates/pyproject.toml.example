@@ -70,4 +70,4 @@ addopts = [
 # 2. Update 'name', 'version', and 'description'
 # 3. Add your specific dependencies to the dependencies list
 # 4. Run: uv sync
-# 5. See ClaudeUsage/uv_usage.md for UV workflows
+# 5. See AgentUsage/uv_usage.md for UV workflows

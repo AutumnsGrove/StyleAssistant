@@ -1,6 +1,6 @@
 # Tests
 
-This directory contains all tests for the Style Assistant project.
+This directory contains all tests for the GroveAssistant project.
 
 ## Structure
 

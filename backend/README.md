@@ -1,6 +1,6 @@
 # Backend
 
-FastAPI backend for the Style Assistant browser extension.
+FastAPI backend for the GroveAssistant browser extension.
 
 ## Structure
 
@@ -28,7 +28,7 @@ The SQLite database includes these tables:
 - `cost_log` - API cost tracking
 - `debug_log` - Error and debug logging
 
-See `StyleAssistantSpec.md` for complete schema details.
+See `GroveAssistantSpec.md` for complete schema details.
 
 ## API Endpoints
 
@@ -49,4 +49,4 @@ uv run uvicorn backend.main:app --host 0.0.0.0 --port 8000
 
 ## Development
 
-The database file will be created at `backend/style_assistant.db` on first run.
+The database file will be created at `backend/grove_assistant.db` on first run.

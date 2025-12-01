@@ -1,4 +1,4 @@
--- Style Assistant Database Schema
+-- GroveAssistant Database Schema
 -- Enhanced schema with constraints and indexes for production use
 
 -- User style profile

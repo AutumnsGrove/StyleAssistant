@@ -1,6 +1,6 @@
 # Development Guide
 
-Quick reference for developing Style Assistant.
+Quick reference for developing GroveAssistant.
 
 ## Initial Setup (One-time)
 
@@ -72,10 +72,10 @@ npm run format
 ├── backend/                 # Python FastAPI backend
 │   ├── main.py             # API entry point
 │   ├── database.py         # SQLite interface
-│   ├── models.py           # Pydantic models
-│   ├── utils.py            # Helpers
+│   ├── config.py           # Pydantic settings
 │   ├── ai_providers/       # AI abstraction layer
-│   └── extractors/         # Product extractors
+│   ├── extractors/         # Product extractors
+│   └── costs/              # Cost tracking
 │
 ├── extension/              # Firefox extension
 │   ├── src/               # TypeScript source
@@ -139,8 +139,8 @@ npm run build
 3. Check browser console for errors
 
 ### Database errors
-- Delete `backend/style_assistant.db` to reset
-- Check database schema in `backend/database.py`
+- Delete `backend/grove_assistant.db` to reset
+- Check database schema in `backend/schema.sql`
 
 ## Code Style
 

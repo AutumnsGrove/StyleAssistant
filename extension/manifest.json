@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Style Assistant",
+  "name": "GroveAssistant",
   "version": "0.1.0",
   "description": "AI-powered personalized style analysis for e-commerce clothing sites",
   "icons": {
@@ -35,7 +35,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "style-assistant@example.com"
+      "id": "grove-assistant@example.com"
     }
   }
 }
