@@ -4,8 +4,8 @@
   "version": "0.1.0",
   "description": "AI-powered personalized style analysis for e-commerce clothing sites",
   "icons": {
-    "48": "icons/icon-48.png",
-    "96": "icons/icon-96.png"
+    "48": "icons/icon-48.svg",
+    "96": "icons/icon-96.svg"
   },
   "permissions": [
     "storage",
@@ -30,7 +30,7 @@
   "action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
-      "48": "icons/icon-48.png"
+      "48": "icons/icon-48.svg"
     }
   },
   "browser_specific_settings": {
