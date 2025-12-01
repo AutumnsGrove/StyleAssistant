@@ -29,30 +29,30 @@
 - [x] Total cost endpoint (`/api/costs/total`)
 - [x] Cached savings calculation
 
-### Phase 5: API Integration
-- [ ] Create `/api/analyze` endpoint
-- [ ] Integrate: extractors → AI provider → cost tracker → database
-- [ ] Create `/api/test-connection` endpoint
-- [ ] Add analysis caching logic (check DB before calling AI)
+### Phase 5: API Integration ✅
+- [x] Create `/api/analyze` endpoint
+- [x] Integrate: extractors → AI provider → cost tracker → database
+- [x] Create `/api/test-connection` endpoint
+- [x] Add analysis caching logic (check DB before calling AI)
 
-### Phase 6: Database Service Layer
-- [ ] Product CRUD operations
-- [ ] Analysis CRUD operations
-- [ ] Profile CRUD operations
-- [ ] Cache lookup logic (by product_url + profile_version)
+### Phase 6: Database Service Layer ✅
+- [x] Product CRUD operations (`ProductService`)
+- [x] Analysis CRUD operations (`AnalysisService`)
+- [x] Profile CRUD operations (`ProfileService`)
+- [x] Cache lookup logic (by product_url + profile_version)
 
-### Phase 7: Testing Suite
-- [ ] Database tests (schema, CRUD, cache lookup)
-- [ ] AI provider tests (mock Claude API, cost calculation)
-- [ ] API integration tests (full analysis flow)
-- [ ] Achieve >80% test coverage
+### Phase 7: Testing Suite ✅
+- [x] Database tests (schema, CRUD, cache lookup)
+- [x] AI provider tests (mock Claude API, cost calculation)
+- [x] API integration tests (full analysis flow)
+- [x] Achieve >80% test coverage (currently 81%)
 
-### Phase 8: Extension Foundation
-- [ ] Firefox extension manifest (Manifest V3)
-- [ ] Content script injection (DOM + fallback)
-- [ ] Background service worker (API communication)
-- [ ] Extension popup UI
-- [ ] Settings storage (Firefox storage API)
+### Phase 8: Extension Foundation ✅
+- [x] Firefox extension manifest (Manifest V3)
+- [x] Content script injection with analysis overlay
+- [x] Background service worker (API communication)
+- [x] Extension popup UI
+- [x] Settings storage (Firefox storage API)
 
 ### Phase 9: Style Quiz
 - [ ] Quiz page UI with visual examples
@@ -60,19 +60,29 @@
 - [ ] Profile generation (structured JSON)
 - [ ] Storage in database with versioning
 
-### Phase 10: Analysis Display
-- [ ] Product page detection logic
-- [ ] Analysis box UI (collapsed/expanded states)
-- [ ] Full vs basic mode analysis
-- [ ] Outfit pairing suggestions display
-- [ ] Color-coded match score indicators
+### Phase 10: Analysis Display (Partially Complete)
+- [x] Product page detection logic
+- [x] Analysis box UI (collapsed/expanded states)
+- [x] Full vs basic mode analysis
+- [x] Outfit pairing suggestions display
+- [x] Color-coded match score indicators
 
 ### Phase 11: Polish & Launch
 - [ ] Comprehensive error handling in extension
 - [ ] Debug logging system
-- [ ] Cost display in all locations
+- [x] Cost display in all locations
 - [ ] Performance optimization
 - [ ] Image optimization (WebP conversion)
+
+---
+
+## Setup Required (Post-Merge)
+
+See `POST_MERGE_SETUP.md` for:
+- [ ] Configure Anthropic API key in `secrets.json`
+- [ ] Install backend dependencies
+- [ ] Build and load extension in Firefox
+- [ ] Run test suite to verify setup
 
 ---
 

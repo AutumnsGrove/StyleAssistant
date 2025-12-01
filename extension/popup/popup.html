@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GroveAssistant</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <h1>🌲 GroveAssistant</h1>
+      <p class="tagline">AI-Powered Style Analysis</p>
+    </header>
+
+    <div id="status" class="status-message" style="display: none;"></div>
+
+    <section class="section">
+      <h2>Status</h2>
+      <div class="status-row">
+        <span>Backend:</span>
+        <span id="connection-status" class="status-checking">Checking...</span>
+      </div>
+      <div class="status-row">
+        <span>Profile:</span>
+        <span id="profile-status" class="status-checking">Loading...</span>
+      </div>
+      <div class="button-row">
+        <button id="test-connection" class="btn btn-secondary">Test Connection</button>
+        <button id="take-quiz" class="btn btn-primary">Take Style Quiz</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Settings</h2>
+      <div class="form-group">
+        <label for="api-endpoint">API Endpoint</label>
+        <input type="text" id="api-endpoint" value="http://localhost:8000" placeholder="http://localhost:8000">
+      </div>
+      <div class="form-group checkbox-group">
+        <label>
+          <input type="checkbox" id="auto-analyze" checked>
+          Auto-analyze on product pages
+        </label>
+      </div>
+      <div class="form-group checkbox-group">
+        <label>
+          <input type="checkbox" id="show-costs" checked>
+          Show cost information
+        </label>
+      </div>
+      <button id="save-settings" class="btn btn-primary btn-full">Save Settings</button>
+    </section>
+
+    <footer class="popup-footer">
+      <a href="https://github.com/AutumnsGrove/StyleAssistant" target="_blank">GitHub</a>
+      <span>v0.1.0</span>
+    </footer>
+  </div>
+
+  <script src="../dist/popup/popup.js" type="module"></script>
+</body>
+</html>
