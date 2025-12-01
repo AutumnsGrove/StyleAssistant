@@ -8,7 +8,9 @@
  */
 
 import * as api from "../shared/api";
-import type { MessageType, MessageResponse, AnalyzeResponse } from "../shared/types";
+import { getSettings } from "../shared/storage";
+import { backgroundLogger as logger } from "../shared/logger";
+import type { MessageType, MessageResponse } from "../shared/types";
 
 /**
  * Handle messages from content scripts and popup.
@@ -41,7 +43,6 @@ async function handleMessage(message: MessageType): Promise<MessageResponse> {
       }
 
       case "GET_SETTINGS": {
-        const { getSettings } = await import("../shared/storage");
         const settings = await getSettings();
         return { success: true, data: settings };
       }
@@ -51,7 +52,7 @@ async function handleMessage(message: MessageType): Promise<MessageResponse> {
     }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    console.error("[GroveAssistant] Background error:", errorMessage);
+    logger.error("Message handling failed", error);
     return { success: false, error: errorMessage };
   }
 }
@@ -61,11 +62,11 @@ async function handleMessage(message: MessageType): Promise<MessageResponse> {
  */
 browser.runtime.onInstalled.addListener((details) => {
   if (details.reason === "install") {
-    console.log("[GroveAssistant] Extension installed");
+    logger.info("Extension installed");
     // Could open welcome/setup page here
   } else if (details.reason === "update") {
-    console.log("[GroveAssistant] Extension updated to", browser.runtime.getManifest().version);
+    logger.info(`Extension updated to ${browser.runtime.getManifest().version}`);
   }
 });
 
-console.log("[GroveAssistant] Background script loaded");
+logger.info("Background script loaded");
