@@ -6,7 +6,7 @@ tags:
 type:
 ---
 
-# Project Spec: Style Assistant Browser Extension
+# Project Spec: GroveAssistant Browser Extension
 
 ## Overview
 
@@ -388,7 +388,7 @@ CREATE TABLE debug_log (
 
 ```
 ┌────────────────────────────────┐
-│  Style Assistant              │
+│  GroveAssistant              │
 ├────────────────────────────────┤
 │ 🔌 Extension Status            │
 │  [Toggle ON/OFF]               │
@@ -628,7 +628,7 @@ All-time: $45.67 (TODO)
 ## File Structure
 
 ```
-style-assistant/
+grove-assistant/
 ├── backend/
 │   ├── main.py                 # FastAPI app
 │   ├── database.py             # SQLite connection & queries

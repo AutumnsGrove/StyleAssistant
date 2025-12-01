@@ -37,7 +37,7 @@ class Settings(BaseSettings):
 
     # Database Configuration
     database_path: str = Field(
-        default="backend/style_assistant.db", description="SQLite database file path"
+        default="backend/grove_assistant.db", description="SQLite database file path"
     )
 
     # CORS Configuration

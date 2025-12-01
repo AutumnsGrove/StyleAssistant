@@ -81,7 +81,7 @@ git restore --staged <file>
 echo '{"api_key": "sk-ant-..."}' > secrets.json
 
 # 3. Update code to load from secrets.json
-# See ClaudeUsage/secrets_management.md
+# See AgentUsage/secrets_management.md
 
 # 4. Stage and commit again
 git add .
@@ -143,7 +143,7 @@ go mod download      # Go
 ls -l .git/hooks/post-checkout
 
 # Reinstall hook
-cp ClaudeUsage/pre_commit_hooks/post-checkout .git/hooks/
+cp AgentUsage/pre_commit_hooks/post-checkout .git/hooks/
 chmod +x .git/hooks/post-checkout
 ```
 
@@ -168,13 +168,13 @@ cp .git/hooks.backup/*.sample .git/hooks/ 2>/dev/null || true
 
 ```bash
 # Use installer (recommended)
-./ClaudeUsage/pre_commit_hooks/install_hooks.sh
+./AgentUsage/pre_commit_hooks/install_hooks.sh
 
 # Or manually
-cp ClaudeUsage/pre_commit_hooks/commit-msg .git/hooks/
-cp ClaudeUsage/pre_commit_hooks/pre-commit-python .git/hooks/pre-commit
-cp ClaudeUsage/pre_commit_hooks/pre-commit-secrets-scanner .git/hooks/pre-commit-secrets
-cp ClaudeUsage/pre_commit_hooks/pre-push .git/hooks/
+cp AgentUsage/pre_commit_hooks/commit-msg .git/hooks/
+cp AgentUsage/pre_commit_hooks/pre-commit-python .git/hooks/pre-commit
+cp AgentUsage/pre_commit_hooks/pre-commit-secrets-scanner .git/hooks/pre-commit-secrets
+cp AgentUsage/pre_commit_hooks/pre-push .git/hooks/
 chmod +x .git/hooks/*
 ```
 

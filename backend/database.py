@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import AsyncGenerator
 
 
-DATABASE_PATH = Path("backend/style_assistant.db")
+DATABASE_PATH = Path("backend/grove_assistant.db")
 
 
 async def init_database():

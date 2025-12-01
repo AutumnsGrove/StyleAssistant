@@ -200,9 +200,9 @@ check_untyped_defs = true
 
 For automated code quality enforcement, integrate these tools with pre-commit hooks.
 
-**See detailed setup guide**: `ClaudeUsage/pre_commit_hooks/setup_guide.md`
+**See detailed setup guide**: `AgentUsage/pre_commit_hooks/setup_guide.md`
 
-**See configuration examples**: `ClaudeUsage/pre_commit_hooks/examples.md`
+**See configuration examples**: `AgentUsage/pre_commit_hooks/examples.md`
 
 Basic `.pre-commit-config.yaml`:
 
@@ -271,11 +271,11 @@ uv run black --check . && uv run ruff check . && uv run mypy --strict .
 
 ## Related Guides
 
-- **Pre-commit Hooks**: `ClaudeUsage/pre_commit_hooks/setup_guide.md`
-- **Hook Examples**: `ClaudeUsage/pre_commit_hooks/examples.md`
-- **Testing Strategies**: `ClaudeUsage/testing_strategies.md`
-- **UV Usage**: `ClaudeUsage/uv_usage.md`
-- **Project Structure**: `ClaudeUsage/project_structure.md`
+- **Pre-commit Hooks**: `AgentUsage/pre_commit_hooks/setup_guide.md`
+- **Hook Examples**: `AgentUsage/pre_commit_hooks/examples.md`
+- **Testing Strategies**: `AgentUsage/testing_strategies.md`
+- **UV Usage**: `AgentUsage/uv_usage.md`
+- **Project Structure**: `AgentUsage/project_structure.md`
 
 ## Quick Summary
 

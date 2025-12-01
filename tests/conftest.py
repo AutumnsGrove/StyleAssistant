@@ -1,4 +1,4 @@
-"""Shared pytest fixtures for Style Assistant tests."""
+"""Shared pytest fixtures for GroveAssistant tests."""
 
 import pytest
 from pathlib import Path
@@ -10,7 +10,7 @@ import shutil
 def temp_db():
     """Create a temporary database for testing."""
     temp_dir = tempfile.mkdtemp()
-    db_path = Path(temp_dir) / "test_style_assistant.db"
+    db_path = Path(temp_dir) / "test_grove_assistant.db"
 
     yield db_path
 

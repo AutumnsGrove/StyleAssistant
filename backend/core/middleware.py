@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from fastapi import Request, status
 from fastapi.responses import JSONResponse
 
-from backend.core.exceptions import StyleAssistantException
+from backend.core.exceptions import GroveAssistantException
 
 
 logger = logging.getLogger(__name__)
@@ -34,7 +34,7 @@ async def error_handling_middleware(request: Request, call_next):
         response = await call_next(request)
         return response
 
-    except StyleAssistantException as e:
+    except GroveAssistantException as e:
         # Log custom exceptions
         logger.error(
             f"{e.__class__.__name__}: {e.message}",

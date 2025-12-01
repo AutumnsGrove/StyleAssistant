@@ -1,7 +1,7 @@
 [project]
-name = "style-assistant"
+name = "grove-assistant"
 version = "0.1.0"
-description = "AI-powered personalized style analysis browser extension"
+description = "AI-powered personalized style analysis Firefox browser extension"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

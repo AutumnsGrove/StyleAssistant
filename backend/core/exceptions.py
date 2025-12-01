@@ -1,5 +1,5 @@
 """
-Custom exception hierarchy for Style Assistant.
+Custom exception hierarchy for GroveAssistant.
 
 Provides domain-specific exceptions with HTTP status codes for
 consistent error handling throughout the application.
@@ -8,7 +8,7 @@ consistent error handling throughout the application.
 from typing import Optional, Dict, Any
 
 
-class StyleAssistantException(Exception):
+class GroveAssistantException(Exception):
     """
     Base exception for all custom exceptions.
 
@@ -28,14 +28,14 @@ class StyleAssistantException(Exception):
         super().__init__(self.message)
 
 
-class DatabaseError(StyleAssistantException):
+class DatabaseError(GroveAssistantException):
     """Database operation failed."""
 
     def __init__(self, message: str, detail: Optional[Dict[str, Any]] = None):
         super().__init__(message, status_code=500, detail=detail)
 
 
-class AIProviderError(StyleAssistantException):
+class AIProviderError(GroveAssistantException):
     """AI provider API error."""
 
     def __init__(
@@ -47,21 +47,21 @@ class AIProviderError(StyleAssistantException):
         super().__init__(message, status_code=status_code, detail=detail)
 
 
-class ValidationError(StyleAssistantException):
+class ValidationError(GroveAssistantException):
     """Request validation failed."""
 
     def __init__(self, message: str, detail: Optional[Dict[str, Any]] = None):
         super().__init__(message, status_code=400, detail=detail)
 
 
-class NotFoundError(StyleAssistantException):
+class NotFoundError(GroveAssistantException):
     """Resource not found."""
 
     def __init__(self, message: str, detail: Optional[Dict[str, Any]] = None):
         super().__init__(message, status_code=404, detail=detail)
 
 
-class AuthenticationError(StyleAssistantException):
+class AuthenticationError(GroveAssistantException):
     """Authentication failed."""
 
     def __init__(self, message: str, detail: Optional[Dict[str, Any]] = None):

@@ -1,128 +1,74 @@
-# TODOs for Style Assistant
+# GroveAssistant - Development TODOs
 
-**Last Updated**: 2025-11-11
-**Current Status**: Backend Core Infrastructure ~60% Complete
+## Current Focus: V1 MVP
 
----
+### Phase 1: Infrastructure (Milestone 1) ✅
+- [x] Set up FastAPI project structure
+- [x] Configure UV package manager and dependencies
+- [x] Set up SQLite database schema
+- [x] Configure Pydantic settings for configuration
+- [x] Implement error handling middleware
+- [x] Create health check endpoint (`/health`)
 
-## ✅ COMPLETED - Session 2025-11-11
+### Phase 2: AI Provider System ✅
+- [x] Implement abstract `AIProvider` base class
+- [x] Create `ClaudeProvider` with Sonnet 4.5 & Haiku 4.5
+- [x] Implement 3-breakpoint prompt caching (50-70% savings)
+- [x] Add token counting and cost calculation
+- [x] Profile versioning with SHA-256 hash
 
-### Research Phase (100% Complete)
-- [x] **Technical Research Subagent** (Commit: `6cb84b4`)
-  - FastAPI best practices, async SQLite, Claude prompt caching
-  - Document: `ClaudeUsage/backend_technical_research.md`
+### Phase 3: Product Extraction ✅
+- [x] Create base `ProductExtractor` class
+- [x] Implement Uniqlo extractor (BeautifulSoup)
+- [x] Factory pattern for extractor selection
+- [x] URL pattern matching for site detection
 
-- [x] **Architecture Validation Subagent** (Commit: `19dbbd2`)
-  - Finalized architecture with hybrid domain-driven structure
-  - Document: `ClaudeUsage/backend_architecture.md`
+### Phase 4: Cost Tracking ✅
+- [x] Implement `CostTracker` service
+- [x] Session cost breakdown endpoint (`/api/costs/session/{id}`)
+- [x] Total cost endpoint (`/api/costs/total`)
+- [x] Cached savings calculation
 
-### Development Phase - Backend Core (60% Complete)
-- [x] **Core Infrastructure** (Commit: `6ba804f`)
-  - ✅ FastAPI application setup
-  - ✅ SQLite database schema with all tables
-  - ✅ Configuration system (Pydantic Settings)
-  - ✅ Error handling middleware
-  - ✅ Health check endpoint: `/health`
+### Phase 5: API Integration
+- [ ] Create `/api/analyze` endpoint
+- [ ] Integrate: extractors → AI provider → cost tracker → database
+- [ ] Create `/api/test-connection` endpoint
+- [ ] Add analysis caching logic (check DB before calling AI)
 
-- [x] **AI Provider Abstraction** (Commit: `c6b5918`)
-  - ✅ Abstract `AIProvider` base class
-  - ✅ Interface for future providers (LM Studio, OpenRouter, OpenAI)
+### Phase 6: Database Service Layer
+- [ ] Product CRUD operations
+- [ ] Analysis CRUD operations
+- [ ] Profile CRUD operations
+- [ ] Cache lookup logic (by product_url + profile_version)
 
-- [x] **Claude Provider Implementation** (Commit: `68ee859`)
-  - ✅ ClaudeProvider with Sonnet 4.5 & Haiku 4.5
-  - ✅ 3-breakpoint prompt caching (50-70% cost savings)
-  - ✅ Token counting and cost calculation
-  - ✅ Profile versioning (SHA-256 hash)
+### Phase 7: Testing Suite
+- [ ] Database tests (schema, CRUD, cache lookup)
+- [ ] AI provider tests (mock Claude API, cost calculation)
+- [ ] API integration tests (full analysis flow)
+- [ ] Achieve >80% test coverage
 
-- [x] **Product Extractor System** (Commit: `53d074e`)
-  - ✅ Base `ProductExtractor` class
-  - ✅ Uniqlo extractor (BeautifulSoup)
-  - ✅ Factory pattern for extractor selection
-
-- [x] **Cost Tracking System** (Commit: `fde6b7f`)
-  - ✅ CostTracker service
-  - ✅ Session cost breakdown endpoint: `/api/costs/session/{id}`
-  - ✅ Total cost endpoint: `/api/costs/total`
-  - ✅ Cached savings calculation
-
----
-
-## 🚧 IN PROGRESS - Next Session
-
-### Backend Development (~40% Remaining)
-
-- [ ] **FastAPI Integration & Analysis Endpoints** (Next Subagent)
-  - Create `/api/analyze` endpoint
-  - Integrate: extractors → AI provider → cost tracker → database
-  - Create `/api/test-connection` endpoint
-  - Add analysis caching logic (check DB before calling AI)
-
-- [ ] **Database Service Layer** (Next Subagent)
-  - Product CRUD operations
-  - Analysis CRUD operations
-  - Profile CRUD operations
-  - Cache lookup logic (by product_url + profile_version)
-
-- [ ] **Debug Logging System** (Next Subagent)
-  - Logging utilities
-  - Database logging integration
-  - Log retrieval endpoints
-
-- [ ] **Image Processing** (Optional for MVP)
-  - Image download from URLs
-  - WebP conversion
-  - Compression to ~200KB
-  - Storage in database
-
----
-
-## 📋 TESTING PHASE - Not Started
-
-- [ ] **Test Planning**
-  - Comprehensive test plan document
-  - Test cases for each component
-
-- [ ] **Database Tests**
-  - Schema creation tests
-  - CRUD operation tests
-  - Cache lookup tests
-
-- [ ] **AI Provider Tests**
-  - Mock Claude API responses
-  - Test prompt caching
-  - Cost calculation tests
-
-- [ ] **API Integration Tests**
-  - Test all FastAPI endpoints
-  - Test error handling
-  - Test full analysis flow
-
----
-
-## 🦊 EXTENSION DEVELOPMENT - Not Started
-
-### Phase 2: Extension Foundation
+### Phase 8: Extension Foundation
 - [ ] Firefox extension manifest (Manifest V3)
 - [ ] Content script injection (DOM + fallback)
 - [ ] Background service worker (API communication)
 - [ ] Extension popup UI
 - [ ] Settings storage (Firefox storage API)
 
-### Phase 3: Style Quiz
+### Phase 9: Style Quiz
 - [ ] Quiz page UI with visual examples
 - [ ] Question flow implementation (7 questions)
 - [ ] Profile generation (structured JSON)
 - [ ] Storage in database with versioning
 
-### Phase 4: Analysis & Display
+### Phase 10: Analysis Display
 - [ ] Product page detection logic
 - [ ] Analysis box UI (collapsed/expanded states)
 - [ ] Full vs basic mode analysis
 - [ ] Outfit pairing suggestions display
 - [ ] Color-coded match score indicators
 
-### Phase 5: Polish
-- [ ] Comprehensive error handling
+### Phase 11: Polish & Launch
+- [ ] Comprehensive error handling in extension
 - [ ] Debug logging system
 - [ ] Cost display in all locations
 - [ ] Performance optimization
@@ -130,65 +76,21 @@
 
 ---
 
-## 🚀 FUTURE FEATURES (Post-MVP)
+## Open Questions (Block V1)
+1. Multi-site support - which sites after Uniqlo?
+2. Quiz question refinement - need user testing
+3. Beta launch strategy - invite-only vs public?
+
+---
+
+## Future Features (Post-MVP)
 - [ ] Persistent all-time cost tracking
 - [ ] Multi-device sync via passphrase
 - [ ] Price history tracking
-- [ ] Cloudflare Workers deployment
+- [ ] Cloudflare Workers deployment option
 - [ ] LM Studio local AI support
-- [ ] Additional e-commerce sites support
+- [ ] Additional e-commerce sites (H&M, Zara, etc.)
 
 ---
 
-## 📊 Progress Summary
-
-**Overall Project**: ~30% Complete
-
-**Backend**: ~60% Complete
-- ✅ Research & Architecture (100%)
-- ✅ Core Infrastructure (100%)
-- ✅ AI Providers (100%)
-- ✅ Product Extractors (100%)
-- ✅ Cost Tracking (100%)
-- ⏳ API Integration (0%)
-- ⏳ Testing (0%)
-
-**Extension**: 0% Complete
-- Configuration files ready
-- No implementation yet
-
----
-
-## 🎯 Next Session Goals
-
-1. **Complete Backend Integration** (~2-3 subagents)
-   - Finish `/api/analyze` endpoint
-   - Complete database service layer
-   - Add debug logging
-
-2. **Backend Testing** (~4-5 subagents)
-   - Test planning
-   - Unit tests for all components
-   - Integration tests for API
-   - Run test suite, verify >80% coverage
-
-3. **Start Extension Development** (if time permits)
-   - Begin with manifest and basic structure
-   - Content script for product detection
-
----
-
-## 📝 Notes
-
-- **Server Running**: `uv run uvicorn backend.main:app --reload` at http://localhost:8000
-- **Working Endpoints**:
-  - `GET /health` - Server health check
-  - `GET /api/costs/total` - All-time costs
-  - `GET /api/costs/session/{id}` - Session costs
-- **Database**: `backend/style_assistant.db` created with all tables
-- **Git History**: 7 atomic commits documenting development journey
-- **Documentation**: Complete research and architecture docs in `ClaudeUsage/`
-
----
-
-*Last updated: 2025-11-11 by Claude Code Session*
+*See `GroveAssistantSpec.md` for full product specification*

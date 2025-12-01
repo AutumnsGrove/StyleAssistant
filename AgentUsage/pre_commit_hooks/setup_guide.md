@@ -10,28 +10,28 @@ Git hooks are scripts that automatically run at specific points in your Git work
 
 ```bash
 # RECOMMENDED: Use the installer script (interactive)
-./ClaudeUsage/pre_commit_hooks/install_hooks.sh
+./AgentUsage/pre_commit_hooks/install_hooks.sh
 
 # OR: Manual installation for specific language
 # Python project:
-cp ClaudeUsage/pre_commit_hooks/commit-msg .git/hooks/
-cp ClaudeUsage/pre_commit_hooks/pre-commit-python .git/hooks/pre-commit
-cp ClaudeUsage/pre_commit_hooks/pre-commit-secrets-scanner .git/hooks/pre-commit-secrets
-cp ClaudeUsage/pre_commit_hooks/pre-push .git/hooks/
+cp AgentUsage/pre_commit_hooks/commit-msg .git/hooks/
+cp AgentUsage/pre_commit_hooks/pre-commit-python .git/hooks/pre-commit
+cp AgentUsage/pre_commit_hooks/pre-commit-secrets-scanner .git/hooks/pre-commit-secrets
+cp AgentUsage/pre_commit_hooks/pre-push .git/hooks/
 chmod +x .git/hooks/*
 
 # JavaScript project:
-cp ClaudeUsage/pre_commit_hooks/commit-msg .git/hooks/
-cp ClaudeUsage/pre_commit_hooks/pre-commit-javascript .git/hooks/pre-commit
-cp ClaudeUsage/pre_commit_hooks/pre-commit-secrets-scanner .git/hooks/pre-commit-secrets
-cp ClaudeUsage/pre_commit_hooks/pre-push .git/hooks/
+cp AgentUsage/pre_commit_hooks/commit-msg .git/hooks/
+cp AgentUsage/pre_commit_hooks/pre-commit-javascript .git/hooks/pre-commit
+cp AgentUsage/pre_commit_hooks/pre-commit-secrets-scanner .git/hooks/pre-commit-secrets
+cp AgentUsage/pre_commit_hooks/pre-push .git/hooks/
 chmod +x .git/hooks/*
 
 # Multi-language project:
-cp ClaudeUsage/pre_commit_hooks/commit-msg .git/hooks/
-cp ClaudeUsage/pre_commit_hooks/pre-commit-multi-language .git/hooks/pre-commit
-cp ClaudeUsage/pre_commit_hooks/pre-commit-secrets-scanner .git/hooks/pre-commit-secrets
-cp ClaudeUsage/pre_commit_hooks/pre-push .git/hooks/
+cp AgentUsage/pre_commit_hooks/commit-msg .git/hooks/
+cp AgentUsage/pre_commit_hooks/pre-commit-multi-language .git/hooks/pre-commit
+cp AgentUsage/pre_commit_hooks/pre-commit-secrets-scanner .git/hooks/pre-commit-secrets
+cp AgentUsage/pre_commit_hooks/pre-push .git/hooks/
 chmod +x .git/hooks/*
 
 # Test without committing
@@ -79,7 +79,7 @@ The easiest way to install hooks is using the interactive installer script:
 cd /path/to/your/project
 
 # Run the installer
-./ClaudeUsage/pre_commit_hooks/install_hooks.sh
+./AgentUsage/pre_commit_hooks/install_hooks.sh
 ```
 
 The installer will:
@@ -99,11 +99,11 @@ For more control, manually copy specific hooks:
 cd /path/to/your/project
 
 # Example: Python project
-cp ClaudeUsage/pre_commit_hooks/commit-msg .git/hooks/
-cp ClaudeUsage/pre_commit_hooks/pre-commit-python .git/hooks/pre-commit
-cp ClaudeUsage/pre_commit_hooks/pre-commit-secrets-scanner .git/hooks/pre-commit-secrets
-cp ClaudeUsage/pre_commit_hooks/pre-push .git/hooks/
-cp ClaudeUsage/pre_commit_hooks/post-checkout .git/hooks/
+cp AgentUsage/pre_commit_hooks/commit-msg .git/hooks/
+cp AgentUsage/pre_commit_hooks/pre-commit-python .git/hooks/pre-commit
+cp AgentUsage/pre_commit_hooks/pre-commit-secrets-scanner .git/hooks/pre-commit-secrets
+cp AgentUsage/pre_commit_hooks/pre-push .git/hooks/
+cp AgentUsage/pre_commit_hooks/post-checkout .git/hooks/
 
 # Make them executable
 chmod +x .git/hooks/*
@@ -135,7 +135,7 @@ Validates commit message format according to conventional commits:
 - Checks for proper commit types (feat, fix, docs, etc.)
 - Validates message structure
 - Supports both conventional and custom formats
-- See `ClaudeUsage/git_guide.md` for format details
+- See `AgentUsage/git_guide.md` for format details
 
 #### pre-commit-secrets-scanner
 **CRITICAL SECURITY**: Scans for API keys and secrets before commit:

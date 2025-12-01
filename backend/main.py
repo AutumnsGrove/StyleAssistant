@@ -1,5 +1,5 @@
 """
-FastAPI application entry point for Style Assistant backend.
+FastAPI application entry point for GroveAssistant backend.
 
 Configures FastAPI app with CORS, middleware, and routes.
 Initializes database on startup.
@@ -24,7 +24,7 @@ logging.basicConfig(
     format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
-logger = logging.getLogger("style_assistant")
+logger = logging.getLogger("grove_assistant")
 
 
 @asynccontextmanager
@@ -40,19 +40,19 @@ async def lifespan(app: FastAPI):
         - Clean up resources (if needed)
     """
     # Startup
-    logger.info("Starting Style Assistant backend...")
+    logger.info("Starting GroveAssistant backend...")
     await init_database()
     logger.info("Database initialized successfully")
 
     yield
 
     # Shutdown
-    logger.info("Shutting down Style Assistant backend...")
+    logger.info("Shutting down GroveAssistant backend...")
 
 
 # Create FastAPI application
 app = FastAPI(
-    title="Style Assistant API",
+    title="GroveAssistant API",
     version="0.1.0",
     description="AI-powered personalized style analysis backend",
     lifespan=lifespan,

@@ -1,6 +1,6 @@
 # Backend Technical Research
 
-**Project**: Style Assistant Browser Extension
+**Project**: GroveAssistant Browser Extension
 **Focus**: FastAPI Backend, SQLite Database, Claude API Integration
 **Date**: 2025-11-11
 **Research Phase**: Technical Foundation
@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-This document provides technical research findings and implementation recommendations for the Style Assistant backend. The backend will use FastAPI (Python), SQLite for data persistence, and Anthropic's Claude API with prompt caching to provide personalized style analysis while minimizing costs.
+This document provides technical research findings and implementation recommendations for the GroveAssistant backend. The backend will use FastAPI (Python), SQLite for data persistence, and Anthropic's Claude API with prompt caching to provide personalized style analysis while minimizing costs.
 
 **Key Findings**:
 - Domain-driven FastAPI structure recommended over type-based organization
@@ -68,7 +68,7 @@ backend/
 - Simpler refactoring and testing
 - Scales better for larger projects
 
-### Recommended Structure for Style Assistant
+### Recommended Structure for GroveAssistant
 
 Based on the project requirements, the following structure is recommended:
 
@@ -139,7 +139,7 @@ from analysis.router import router as analysis_router
 from costs.router import router as costs_router
 
 app = FastAPI(
-    title="Style Assistant API",
+    title="GroveAssistant API",
     version="1.0.0",
     description="AI-powered style analysis backend"
 )
@@ -234,7 +234,7 @@ The slowdown in aiosqlite comes from its architecture:
 - Thread synchronization adds overhead, especially for `fetchone()` operations
 - Bulk operations (`fetchall()`, `fetchmany()`) have minimal overhead
 
-### Recommendation for Style Assistant
+### Recommendation for GroveAssistant
 
 **Use aiosqlite** despite the overhead because:
 1. FastAPI is async-first - blocking operations would harm concurrency
@@ -383,7 +383,7 @@ For production, consider using **Alembic** for migrations:
 
 ### Research Findings
 
-Anthropic's prompt caching feature can dramatically reduce costs and latency for applications with repetitive context. This is critical for the Style Assistant since user profiles and extraction schemas remain constant across requests.
+Anthropic's prompt caching feature can dramatically reduce costs and latency for applications with repetitive context. This is critical for the GroveAssistant since user profiles and extraction schemas remain constant across requests.
 
 ### How Prompt Caching Works
 
@@ -412,7 +412,7 @@ Prompt caching is available for:
 - Claude Haiku 3.5, 3
 - Claude Opus 3 (deprecated)
 
-### Implementation for Style Assistant
+### Implementation for GroveAssistant
 
 **API Request Structure**:
 
@@ -452,7 +452,7 @@ response = client.messages.create(
 )
 ```
 
-### Caching Strategy for Style Assistant
+### Caching Strategy for GroveAssistant
 
 **What to Cache** (in order of cache breakpoints):
 
@@ -801,7 +801,7 @@ response = client.post("/analyze", json={...})
 # Uses mock database instead of real one
 ```
 
-### Recommendations for Style Assistant
+### Recommendations for GroveAssistant
 
 **1. Database Session Dependency**:
 ```python
@@ -1030,25 +1030,25 @@ async def save_image_file(
 from fastapi import HTTPException, Request
 from fastapi.responses import JSONResponse
 
-class StyleAssistantException(Exception):
+class GroveAssistantException(Exception):
     """Base exception for application."""
     def __init__(self, message: str, status_code: int = 500):
         self.message = message
         self.status_code = status_code
 
-class CacheError(StyleAssistantException):
+class CacheError(GroveAssistantException):
     """Database cache error."""
     pass
 
-class AIProviderError(StyleAssistantException):
+class AIProviderError(GroveAssistantException):
     """AI provider API error."""
     pass
 
 # Exception handlers
-@app.exception_handler(StyleAssistantException)
+@app.exception_handler(GroveAssistantException)
 async def custom_exception_handler(
     request: Request,
-    exc: StyleAssistantException
+    exc: GroveAssistantException
 ):
     return JSONResponse(
         status_code=exc.status_code,
@@ -1139,7 +1139,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 ## Conclusion
 
-The research findings provide a solid foundation for implementing the Style Assistant backend:
+The research findings provide a solid foundation for implementing the GroveAssistant backend:
 
 1. **FastAPI** with domain-driven structure offers excellent scalability and maintainability
 2. **aiosqlite** provides async SQLite access suitable for FastAPI despite slight performance overhead

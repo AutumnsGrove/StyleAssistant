@@ -1,6 +1,6 @@
 # Extension
 
-Firefox browser extension for Style Assistant.
+Firefox browser extension for GroveAssistant.
 
 ## Structure
 
