@@ -8,10 +8,91 @@
  */
 
 import type { AnalyzeResponse, MessageResponse } from "../shared/types";
+import { contentLogger as logger } from "../shared/logger";
 
 // UI state
 let analysisBox: HTMLElement | null = null;
 let isExpanded = false;
+let retryCount = 0;
+const MAX_RETRIES = 3;
+const RETRY_DELAYS = [2000, 5000, 10000]; // Exponential backoff
+
+/** Error types for user-friendly messages */
+interface ErrorInfo {
+  title: string;
+  message: string;
+  action?: "retry" | "quiz" | "settings" | "none";
+  retryDelay?: number;
+}
+
+/**
+ * Parse error message and return user-friendly info.
+ */
+function parseError(error: string): ErrorInfo {
+  const lowerError = error.toLowerCase();
+
+  // API key issues
+  if (lowerError.includes("api key") || lowerError.includes("unauthorized") || lowerError.includes("401")) {
+    return {
+      title: "API Key Required",
+      message: "Please configure your Claude API key in the extension settings.",
+      action: "settings",
+    };
+  }
+
+  // Rate limiting
+  if (lowerError.includes("rate limit") || lowerError.includes("429") || lowerError.includes("too many")) {
+    return {
+      title: "Rate Limited",
+      message: "Too many requests. Please wait a moment.",
+      action: "retry",
+      retryDelay: 60000,
+    };
+  }
+
+  // Network/connection issues
+  if (lowerError.includes("fetch") || lowerError.includes("network") || lowerError.includes("connection") || lowerError.includes("failed to fetch")) {
+    return {
+      title: "Connection Error",
+      message: "Unable to connect to the analysis service. Is the backend running?",
+      action: "retry",
+    };
+  }
+
+  // Backend not running
+  if (lowerError.includes("econnrefused") || lowerError.includes("localhost")) {
+    return {
+      title: "Backend Offline",
+      message: "The GroveAssistant backend is not running. Please start it first.",
+      action: "none",
+    };
+  }
+
+  // Product extraction issues
+  if (lowerError.includes("extract") || lowerError.includes("product data") || lowerError.includes("unsupported")) {
+    return {
+      title: "Extraction Failed",
+      message: "Could not extract product information from this page.",
+      action: "retry",
+    };
+  }
+
+  // Claude API issues
+  if (lowerError.includes("claude") || lowerError.includes("anthropic") || lowerError.includes("500")) {
+    return {
+      title: "Analysis Service Error",
+      message: "The AI service encountered an error. Please try again.",
+      action: "retry",
+    };
+  }
+
+  // Default fallback
+  return {
+    title: "Analysis Failed",
+    message: error || "An unexpected error occurred.",
+    action: "retry",
+  };
+}
 
 /**
  * Check if current page is a product page.
@@ -190,7 +271,7 @@ function renderAnalysis(analysis: AnalyzeResponse): void {
 }
 
 /**
- * Show error in the overlay.
+ * Show error in the overlay with user-friendly messages.
  */
 function renderError(error: string): void {
   if (!analysisBox) return;
@@ -198,18 +279,206 @@ function renderError(error: string): void {
   const content = analysisBox.querySelector(".grove-assistant-content");
   if (!content) return;
 
+  const errorInfo = parseError(error);
+
+  let actionHtml = "";
+  switch (errorInfo.action) {
+    case "retry":
+      actionHtml = `<button class="grove-retry grove-btn">Try Again</button>`;
+      break;
+    case "settings":
+      actionHtml = `<button class="grove-open-settings grove-btn">Open Settings</button>`;
+      break;
+    case "quiz":
+      actionHtml = `<button class="grove-open-quiz grove-btn grove-btn-primary">Take Style Quiz</button>`;
+      break;
+    default:
+      actionHtml = `<button class="grove-retry grove-btn" disabled>Retry</button>`;
+  }
+
   content.innerHTML = `
     <div class="grove-error">
-      <p>Analysis failed</p>
-      <p class="grove-error-detail">${error}</p>
-      <button class="grove-retry">Retry</button>
+      <div class="grove-error-icon">⚠️</div>
+      <h4 class="grove-error-title">${errorInfo.title}</h4>
+      <p class="grove-error-detail">${errorInfo.message}</p>
+      <div class="grove-error-actions">
+        ${actionHtml}
+      </div>
     </div>
   `;
 
-  const retryBtn = content.querySelector(".grove-retry");
+  // Attach event handlers
+  const retryBtn = content.querySelector(".grove-retry:not([disabled])");
   retryBtn?.addEventListener("click", () => {
-    init();
+    if (errorInfo.retryDelay) {
+      // Show countdown for rate limit
+      showRetryCountdown(errorInfo.retryDelay);
+    } else {
+      retryCount++;
+      runAnalysis();
+    }
   });
+
+  const settingsBtn = content.querySelector(".grove-open-settings");
+  settingsBtn?.addEventListener("click", () => {
+    // Signal to open extension popup
+    browser.runtime.sendMessage({ type: "OPEN_POPUP" }).catch(() => {
+      // Popup can't be opened programmatically, show hint
+      alert("Click the GroveAssistant icon in your toolbar to open settings.");
+    });
+  });
+
+  const quizBtn = content.querySelector(".grove-open-quiz");
+  quizBtn?.addEventListener("click", () => {
+    browser.runtime.sendMessage({ type: "OPEN_QUIZ" }).catch(() => {
+      window.open(browser.runtime.getURL("quiz/quiz.html"), "_blank");
+    });
+  });
+}
+
+/**
+ * Show retry countdown for rate limiting.
+ */
+function showRetryCountdown(delayMs: number): void {
+  if (!analysisBox) return;
+
+  const content = analysisBox.querySelector(".grove-assistant-content");
+  if (!content) return;
+
+  let remaining = Math.ceil(delayMs / 1000);
+
+  const updateCountdown = () => {
+    if (remaining <= 0) {
+      retryCount++;
+      runAnalysis();
+      return;
+    }
+
+    content.innerHTML = `
+      <div class="grove-error">
+        <div class="grove-error-icon">⏱️</div>
+        <h4 class="grove-error-title">Rate Limited</h4>
+        <p class="grove-error-detail">Retrying in ${remaining} seconds...</p>
+        <div class="grove-countdown-bar">
+          <div class="grove-countdown-fill" style="width: ${(remaining / (delayMs / 1000)) * 100}%"></div>
+        </div>
+      </div>
+    `;
+
+    remaining--;
+    setTimeout(updateCountdown, 1000);
+  };
+
+  updateCountdown();
+}
+
+/**
+ * Show basic mode prompt when no profile exists.
+ */
+function renderBasicModePrompt(analysis: AnalyzeResponse): void {
+  if (!analysisBox) return;
+
+  const content = analysisBox.querySelector(".grove-assistant-content");
+  if (!content) return;
+
+  // First render the analysis
+  renderAnalysis(analysis);
+
+  // Then append the quiz prompt
+  const prompt = document.createElement("div");
+  prompt.className = "grove-quiz-prompt";
+  prompt.innerHTML = `
+    <p>Want personalized style recommendations?</p>
+    <button class="grove-btn grove-btn-primary grove-take-quiz">Take Style Quiz</button>
+  `;
+
+  content.appendChild(prompt);
+
+  const quizBtn = prompt.querySelector(".grove-take-quiz");
+  quizBtn?.addEventListener("click", () => {
+    window.open(browser.runtime.getURL("quiz/quiz.html"), "_blank");
+  });
+}
+
+/**
+ * Show loading state in the analysis box.
+ */
+function showLoading(): void {
+  if (!analysisBox) return;
+
+  const content = analysisBox.querySelector(".grove-assistant-content");
+  if (content) {
+    content.innerHTML = `
+      <div class="grove-assistant-loading">
+        <div class="grove-loading-spinner"></div>
+        <span>Analyzing product...</span>
+      </div>
+    `;
+  }
+}
+
+/**
+ * Run the analysis with retry support.
+ */
+async function runAnalysis(): Promise<void> {
+  showLoading();
+
+  try {
+    const result = await analyzeCurrentProduct();
+
+    // Reset retry count on success
+    retryCount = 0;
+
+    // Check if basic mode (no profile) and show prompt
+    if (result.analysis_type === "basic" && !result.profile_version) {
+      renderBasicModePrompt(result);
+    } else {
+      renderAnalysis(result);
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    logger.error("Analysis failed", error);
+
+    // Auto-retry with backoff for transient errors
+    if (retryCount < MAX_RETRIES && shouldAutoRetry(message)) {
+      const delay = RETRY_DELAYS[retryCount] || RETRY_DELAYS[RETRY_DELAYS.length - 1];
+      logger.info(`Auto-retrying in ${delay}ms (attempt ${retryCount + 1}/${MAX_RETRIES})`);
+
+      showLoading();
+      const content = analysisBox?.querySelector(".grove-assistant-content");
+      if (content) {
+        content.innerHTML = `
+          <div class="grove-assistant-loading">
+            <div class="grove-loading-spinner"></div>
+            <span>Retrying... (${retryCount + 1}/${MAX_RETRIES})</span>
+          </div>
+        `;
+      }
+
+      setTimeout(() => {
+        retryCount++;
+        runAnalysis();
+      }, delay);
+    } else {
+      renderError(message);
+    }
+  }
+}
+
+/**
+ * Check if error should trigger auto-retry.
+ */
+function shouldAutoRetry(error: string): boolean {
+  const lowerError = error.toLowerCase();
+  // Auto-retry network and transient errors, but not config issues
+  return (
+    lowerError.includes("fetch") ||
+    lowerError.includes("network") ||
+    lowerError.includes("timeout") ||
+    lowerError.includes("500") ||
+    lowerError.includes("502") ||
+    lowerError.includes("503")
+  );
 }
 
 /**
@@ -218,36 +487,23 @@ function renderError(error: string): void {
 async function init(): Promise<void> {
   // Only run on product pages
   if (!isProductPage()) {
-    console.log("[GroveAssistant] Not a product page, skipping");
+    logger.info("Not a product page, skipping");
     return;
   }
 
-  console.log("[GroveAssistant] Product page detected");
+  logger.info("Product page detected");
+
+  // Reset retry count
+  retryCount = 0;
 
   // Create or reset the analysis box
   if (!analysisBox) {
     analysisBox = createAnalysisBox();
     document.body.appendChild(analysisBox);
-  } else {
-    const content = analysisBox.querySelector(".grove-assistant-content");
-    if (content) {
-      content.innerHTML = `
-        <div class="grove-assistant-loading">
-          <span>Analyzing...</span>
-        </div>
-      `;
-    }
   }
 
-  // Request analysis
-  try {
-    const result = await analyzeCurrentProduct();
-    renderAnalysis(result);
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
-    console.error("[GroveAssistant] Analysis failed:", message);
-    renderError(message);
-  }
+  // Run analysis
+  await runAnalysis();
 }
 
 // Run on page load
@@ -257,4 +513,4 @@ if (document.readyState === "loading") {
   init();
 }
 
-console.log("[GroveAssistant] Content script loaded");
+logger.info("Content script loaded");

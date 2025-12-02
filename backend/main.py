@@ -18,6 +18,7 @@ from backend.core.middleware import error_handling_middleware
 from backend.costs.router import router as costs_router
 from backend.analysis.router import router as analysis_router
 from backend.profiles.router import router as profiles_router
+from backend.debug.router import router as debug_router
 
 
 # Configure logging
@@ -80,6 +81,7 @@ app.middleware("http")(error_handling_middleware)
 app.include_router(costs_router)
 app.include_router(analysis_router)
 app.include_router(profiles_router)
+app.include_router(debug_router)
 
 
 @app.get("/health")

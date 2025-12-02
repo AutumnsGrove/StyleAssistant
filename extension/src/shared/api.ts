@@ -5,23 +5,61 @@
 import type { AnalyzeRequest, AnalyzeResponse, UserProfile } from "./types";
 import { getSettings } from "./storage";
 
+/** Default timeout for API requests (30 seconds) */
+const DEFAULT_TIMEOUT = 30000;
+
+/** Extended timeout for analysis requests (2 minutes) */
+const ANALYSIS_TIMEOUT = 120000;
+
+/**
+ * Fetch with timeout support.
+ */
+async function fetchWithTimeout(
+  url: string,
+  options: RequestInit,
+  timeout: number
+): Promise<Response> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+    return response;
+  } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      throw new Error("Request timed out. Please check if the backend is running.");
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 /**
  * Make a request to the backend API.
  */
 async function apiRequest<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
+  timeout = DEFAULT_TIMEOUT
 ): Promise<T> {
   const settings = await getSettings();
   const url = `${settings.apiEndpoint}${endpoint}`;
 
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
+  const response = await fetchWithTimeout(
+    url,
+    {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
     },
-  });
+    timeout
+  );
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({ detail: "Unknown error" }));
@@ -33,14 +71,19 @@ async function apiRequest<T>(
 
 /**
  * Analyze a product page.
+ * Uses extended timeout since AI analysis can take longer.
  */
 export async function analyzeProduct(
   request: AnalyzeRequest
 ): Promise<AnalyzeResponse> {
-  return apiRequest<AnalyzeResponse>("/api/analyze", {
-    method: "POST",
-    body: JSON.stringify(request),
-  });
+  return apiRequest<AnalyzeResponse>(
+    "/api/analyze",
+    {
+      method: "POST",
+      body: JSON.stringify(request),
+    },
+    ANALYSIS_TIMEOUT
+  );
 }
 
 /**

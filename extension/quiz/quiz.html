@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Style Quiz - GroveAssistant</title>
+  <link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+  <div class="quiz-container">
+    <header class="quiz-header">
+      <h1>Style Quiz</h1>
+      <p class="subtitle">Help us understand your style preferences</p>
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <span class="progress-text" id="progress-text">Question 1 of 7</span>
+      </div>
+    </header>
+
+    <main class="quiz-content">
+      <!-- Question 1: Fit Preferences -->
+      <section class="question-section" id="q1" data-question="1">
+        <h2>What fits do you prefer?</h2>
+        <p class="question-hint">Select all that apply</p>
+        <div class="options-grid multi-select">
+          <label class="option-card">
+            <input type="checkbox" name="fit" value="oversized">
+            <span class="option-content">
+              <span class="option-icon">📦</span>
+              <span class="option-label">Oversized</span>
+              <span class="option-desc">Extra roomy, relaxed silhouette</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="fit" value="relaxed">
+            <span class="option-content">
+              <span class="option-icon">🛋️</span>
+              <span class="option-label">Relaxed</span>
+              <span class="option-desc">Comfortable, easy movement</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="fit" value="regular">
+            <span class="option-content">
+              <span class="option-icon">👔</span>
+              <span class="option-label">Regular</span>
+              <span class="option-desc">Classic, balanced fit</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="fit" value="fitted">
+            <span class="option-content">
+              <span class="option-icon">✨</span>
+              <span class="option-label">Fitted</span>
+              <span class="option-desc">Close to body, defined shape</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="fit" value="tailored">
+            <span class="option-content">
+              <span class="option-icon">🎩</span>
+              <span class="option-label">Tailored</span>
+              <span class="option-desc">Precise, structured fit</span>
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Question 2: Color Palette -->
+      <section class="question-section" id="q2" data-question="2" style="display: none;">
+        <h2>What colors do you gravitate towards?</h2>
+        <p class="question-hint">Select all that apply</p>
+        <div class="options-grid multi-select">
+          <label class="option-card">
+            <input type="checkbox" name="color" value="neutrals">
+            <span class="option-content">
+              <span class="color-swatch neutrals"></span>
+              <span class="option-label">Neutrals</span>
+              <span class="option-desc">Black, white, gray</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="color" value="earth_tones">
+            <span class="option-content">
+              <span class="color-swatch earth-tones"></span>
+              <span class="option-label">Earth Tones</span>
+              <span class="option-desc">Brown, beige, olive, tan</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="color" value="pastels">
+            <span class="option-content">
+              <span class="color-swatch pastels"></span>
+              <span class="option-label">Pastels</span>
+              <span class="option-desc">Soft pink, lavender, mint</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="color" value="jewel_tones">
+            <span class="option-content">
+              <span class="color-swatch jewel-tones"></span>
+              <span class="option-label">Jewel Tones</span>
+              <span class="option-desc">Emerald, sapphire, ruby</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="color" value="bright_colors">
+            <span class="option-content">
+              <span class="color-swatch bright-colors"></span>
+              <span class="option-label">Bright Colors</span>
+              <span class="option-desc">Bold, vibrant hues</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="color" value="all_black">
+            <span class="option-content">
+              <span class="color-swatch all-black"></span>
+              <span class="option-label">All Black</span>
+              <span class="option-desc">Monochrome black aesthetic</span>
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Question 3: Formality Spectrum -->
+      <section class="question-section" id="q3" data-question="3" style="display: none;">
+        <h2>How formal is your typical style?</h2>
+        <p class="question-hint">Drag the slider to your comfort zone</p>
+        <div class="slider-container">
+          <div class="slider-labels">
+            <span>Casual</span>
+            <span>Smart Casual</span>
+            <span>Formal</span>
+          </div>
+          <input type="range" id="formality-slider" name="formality" min="1" max="10" value="5" class="formality-slider">
+          <div class="slider-value-container">
+            <span class="slider-value" id="formality-value">5</span>
+            <span class="slider-description" id="formality-desc">Smart casual - versatile everyday style</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Question 4: Gender Presentation -->
+      <section class="question-section" id="q4" data-question="4" style="display: none;">
+        <h2>What style presentation resonates with you?</h2>
+        <p class="question-hint">Select all that apply</p>
+        <div class="options-grid multi-select">
+          <label class="option-card">
+            <input type="checkbox" name="presentation" value="masculine">
+            <span class="option-content">
+              <span class="option-icon">🔷</span>
+              <span class="option-label">Masculine</span>
+              <span class="option-desc">Traditional menswear elements</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="presentation" value="feminine">
+            <span class="option-content">
+              <span class="option-icon">🔶</span>
+              <span class="option-label">Feminine</span>
+              <span class="option-desc">Traditional womenswear elements</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="presentation" value="androgynous">
+            <span class="option-content">
+              <span class="option-icon">⬜</span>
+              <span class="option-label">Androgynous</span>
+              <span class="option-desc">Gender-neutral, balanced</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="presentation" value="fluid">
+            <span class="option-content">
+              <span class="option-icon">🌈</span>
+              <span class="option-label">Fluid</span>
+              <span class="option-desc">Mix and match freely</span>
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Question 5: Aesthetic Categories -->
+      <section class="question-section" id="q5" data-question="5" style="display: none;">
+        <h2>Which aesthetics appeal to you?</h2>
+        <p class="question-hint">Select all that apply</p>
+        <div class="options-grid multi-select aesthetics-grid">
+          <label class="option-card">
+            <input type="checkbox" name="aesthetic" value="minimalist">
+            <span class="option-content">
+              <span class="option-icon">◻️</span>
+              <span class="option-label">Minimalist</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="aesthetic" value="streetwear">
+            <span class="option-content">
+              <span class="option-icon">🛹</span>
+              <span class="option-label">Streetwear</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="aesthetic" value="cottagecore">
+            <span class="option-content">
+              <span class="option-icon">🌿</span>
+              <span class="option-label">Cottagecore</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="aesthetic" value="dark_academia">
+            <span class="option-content">
+              <span class="option-icon">📚</span>
+              <span class="option-label">Dark Academia</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="aesthetic" value="bohemian">
+            <span class="option-content">
+              <span class="option-icon">🪶</span>
+              <span class="option-label">Bohemian</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="aesthetic" value="sporty">
+            <span class="option-content">
+              <span class="option-icon">🏃</span>
+              <span class="option-label">Sporty</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="aesthetic" value="grunge">
+            <span class="option-content">
+              <span class="option-icon">🎸</span>
+              <span class="option-label">Grunge</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="aesthetic" value="preppy">
+            <span class="option-content">
+              <span class="option-icon">🎾</span>
+              <span class="option-label">Preppy</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="aesthetic" value="y2k">
+            <span class="option-content">
+              <span class="option-icon">💿</span>
+              <span class="option-label">Y2K</span>
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Question 6: Priority Features -->
+      <section class="question-section" id="q6" data-question="6" style="display: none;">
+        <h2>What matters most to you in clothing?</h2>
+        <p class="question-hint">Select your top 3 priorities</p>
+        <div class="options-grid multi-select priority-select" data-max="3">
+          <label class="option-card">
+            <input type="checkbox" name="priority" value="comfort">
+            <span class="option-content">
+              <span class="option-icon">☁️</span>
+              <span class="option-label">Comfort</span>
+              <span class="option-desc">Feels good all day</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="priority" value="warmth">
+            <span class="option-content">
+              <span class="option-icon">🔥</span>
+              <span class="option-label">Warmth</span>
+              <span class="option-desc">Keeps you cozy</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="priority" value="pockets">
+            <span class="option-content">
+              <span class="option-icon">👜</span>
+              <span class="option-label">Pockets</span>
+              <span class="option-desc">Functional storage</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="priority" value="versatility">
+            <span class="option-content">
+              <span class="option-icon">🔄</span>
+              <span class="option-label">Versatility</span>
+              <span class="option-desc">Works for many occasions</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="priority" value="durability">
+            <span class="option-content">
+              <span class="option-icon">💪</span>
+              <span class="option-label">Durability</span>
+              <span class="option-desc">Built to last</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="priority" value="unique_design">
+            <span class="option-content">
+              <span class="option-icon">🎨</span>
+              <span class="option-label">Unique Design</span>
+              <span class="option-desc">Stand out from the crowd</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="priority" value="affordability">
+            <span class="option-content">
+              <span class="option-icon">💰</span>
+              <span class="option-label">Affordability</span>
+              <span class="option-desc">Good value for money</span>
+            </span>
+          </label>
+        </div>
+        <p class="selection-count" id="priority-count">0 of 3 selected</p>
+      </section>
+
+      <!-- Question 7: Things to Avoid -->
+      <section class="question-section" id="q7" data-question="7" style="display: none;">
+        <h2>What do you prefer to avoid?</h2>
+        <p class="question-hint">Select all that apply</p>
+        <div class="options-grid multi-select">
+          <label class="option-card">
+            <input type="checkbox" name="avoid" value="tight_fit">
+            <span class="option-content">
+              <span class="option-icon">🚫</span>
+              <span class="option-label">Tight Fits</span>
+              <span class="option-desc">Body-hugging styles</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="avoid" value="crop_tops">
+            <span class="option-content">
+              <span class="option-icon">✂️</span>
+              <span class="option-label">Crop Tops</span>
+              <span class="option-desc">Shorter lengths</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="avoid" value="bright_patterns">
+            <span class="option-content">
+              <span class="option-icon">🌈</span>
+              <span class="option-label">Bright Patterns</span>
+              <span class="option-desc">Bold prints and graphics</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="avoid" value="synthetic_materials">
+            <span class="option-content">
+              <span class="option-icon">🧪</span>
+              <span class="option-label">Synthetic Materials</span>
+              <span class="option-desc">Polyester, nylon, etc.</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="avoid" value="high_maintenance">
+            <span class="option-content">
+              <span class="option-icon">🧺</span>
+              <span class="option-label">High Maintenance</span>
+              <span class="option-desc">Dry clean only, delicate</span>
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="checkbox" name="avoid" value="logos">
+            <span class="option-content">
+              <span class="option-icon">🏷️</span>
+              <span class="option-label">Large Logos</span>
+              <span class="option-desc">Prominent branding</span>
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Completion Screen -->
+      <section class="question-section completion-section" id="completion" style="display: none;">
+        <div class="completion-content">
+          <span class="completion-icon">🎉</span>
+          <h2>All Done!</h2>
+          <p>Your style profile has been saved. You'll now get personalized recommendations based on your preferences.</p>
+          <div class="profile-summary" id="profile-summary">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="quiz-footer">
+      <button class="btn btn-secondary" id="btn-back" style="visibility: hidden;">Back</button>
+      <button class="btn btn-primary" id="btn-next">Next</button>
+    </footer>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loading-overlay" style="display: none;">
+      <div class="loading-spinner"></div>
+      <p>Saving your profile...</p>
+    </div>
+
+    <!-- Error message -->
+    <div class="error-toast" id="error-toast" style="display: none;">
+      <span class="error-message" id="error-message"></span>
+      <button class="error-close" id="error-close">&times;</button>
+    </div>
+  </div>
+
+  <script src="../dist/quiz/quiz.js" type="module"></script>
+</body>
+</html>
